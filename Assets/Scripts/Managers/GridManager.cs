@@ -57,14 +57,18 @@ public class GridManager : MonoBehaviour
 
     public bool IsPositionOnGrid(Vector2Int position)
     {
-        return false;
+        int minValueX = Mathf.CeilToInt((float)_gridSize.x * -0.5f);
+        int maxValueX = Mathf.FloorToInt((float)_gridSize.x * 0.5f) - 1;
+        int minValueY = Mathf.CeilToInt((float)_gridSize.y * -0.5f);
+        int maxValueY = Mathf.FloorToInt((float)_gridSize.y * 0.5f) - 1;
+        return position.x <= maxValueX && position.x >= minValueX && position.y <= maxValueY && position.y >= minValueY;
     }
     #endregion
 
     #region Manage Grid Elements
     public bool CanAddElementAtPos(Vector2Int pos)
     {
-        return !_objectsDict.ContainsKey(pos);
+        return IsPositionOnGrid(pos) && !_objectsDict.ContainsKey(pos);
     }
 
     public void AddElementAtPos(Vector2Int pos, GameObject element)
